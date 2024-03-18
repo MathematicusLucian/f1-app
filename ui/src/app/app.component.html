@@ -1,9 +1,13 @@
 <div style="text-align: center;">
   <h1>f1-stats ui</h1>
 
-  <select [(ngModel)]="track" (change)="select_round()"  mdbInput> 
-    <option *ngFor="let track of seasonRounds" [ngValue]="track">{{track.name}}</option>
+  <select [(ngModel)]="season" (change)="select_season()"  mdbInput> 
+    <option *ngFor="let season of retrievedSeasons" [ngValue]="season">{{season.season}}</option>
   </select>
 
-  <pre>{{seasonRoundData|json}}</pre>
+  <!-- <select [(ngModel)]="track" (change)="select_round()"  mdbInput> 
+    <option *ngFor="let track of retrievedRoundsForSeason" [ngValue]="track">{{track.name}}</option>
+  </select> -->
+
+  <!-- <pre>{{retrivedSeasonRoundData|json}}</pre> -->
 </div>

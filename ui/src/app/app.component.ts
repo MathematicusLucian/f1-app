@@ -11,26 +11,45 @@ import {AppService} from './app.service';
 })
 export class AppComponent implements OnInit {
   title = 'F1 stats';
+  season:any=null;
   track:any={}
-	seasonRounds=[
-		{"id_track":1, "name":"Monaco"},
-		{"id_track":2, "name":"Silverstone"}
-	]
-  BASE_URL = "http://localhost/api/round_results?season=2008&round_no=6"
-  seasonRoundData = {};
+	// years=[
+	// 	{"id_year":1, "name":"2024"},
+	// 	{"id_year":2, "name":"2023"}
+	// ]
+	// seasonRounds=[
+	// 	{"id_track":1, "name":"Monaco"},
+	// 	{"id_track":2, "name":"Silverstone"}
+	// ]
+  BASE_URL = "http://localhost/api/";
+  SEASONS = "seasons";
+  ROUNDS_FOR_SEASON = "rounds_for_season";
+  SEASON_ROUND = "round_results?season=2008&round_no=6";
+  retrievedSeasons = {}
+  retrievedRoundsForSeason = {}
+  retrivedSeasonRoundData = {};
+
   constructor(private appService: AppService, private http: HttpClient) { }
 
   dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
 
-  ngOnInit() {}
-
-	select_round(){
-    console.log(this.track.id_track)
-    this.http.get<any>(this.BASE_URL).subscribe(data => {
-      this.seasonRoundData = data;
-      console.log(this.seasonRoundData)
+  ngOnInit() {
+    this.http.get<any>(this.BASE_URL+this.SEASONS).subscribe(data => {
+      this.retrievedSeasons = data;
     })
+  }
+
+	select_season(){
+  //   this.http.get<any>(this.BASE_URL+this.SEASON_ROUND).subscribe(data => {
+  //     this.retrievedRoundsForSeason = data;
+  //   })
 	}
+
+	// select_round(){
+  //   this.http.get<any>(this.BASE_URL+this.SEASON_ROUND).subscribe(data => {
+  //     this.retrivedSeasonRoundData = data;
+  //   })
+	// }
 }

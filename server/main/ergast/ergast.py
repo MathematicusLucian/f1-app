@@ -11,7 +11,7 @@ class Ergast:
     def __init__(self) -> None:
         self.params = {}
 
-    def run_request(self, season, round_no, resource, limit=None, offset=None) -> dict:
+    def run_request(self, resource, season=None, round_no=None, limit=None, offset=None) -> dict:
         url_tmpl = URITemplate(
             "https://ergast.com/api{/series}{/season}{/round}"
             "{/resource}.json{?limit,offset}"
@@ -26,9 +26,22 @@ class Ergast:
             offset=offset,
         )
         response = requests.get(url)
+        print(url)
         if response.status_code == 200:
-            api_json =  json.loads(response.text)
-            return api_json["MRData"]["RaceTable"]["Races"]
+            return json.loads(response.text)
         raise Exception(
             f"Failed - status code {response.status_code}. Error: {response.reason}"
         )
+    
+    def get_seasons(self):
+        api_json = self.run_request("seasons")
+        return api_json["MRData"]["SeasonTable"]["Seasons"]
+    
+    def get_rounds_for_season(self, season):
+        api_json = self.run_request("results", season)
+        return api_json
+
+    def get_season_round_results(self, season, round_no):
+        api_json = self.run_request("results", season, round_no)
+        return api_json["MRData"]["RaceTable"]["Races"]
+
