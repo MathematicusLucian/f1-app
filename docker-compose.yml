@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  f1_stats_nginx:
+    container_name: f1_stats_nginx_container
+    restart: always
+    image: nginx
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    volumes:
+     - ./ui/dist:/usr/share/nginx/html
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - f1_stats_flask
+
+  f1_stats_flask:
+    container_name: f1_stats_flask_container
+    restart: always
+    image: flask
+    build: ./server
+    volumes:
+     - ./server:/usr/src/app/server
+    env_file:
+     - .env
