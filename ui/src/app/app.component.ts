@@ -15,9 +15,12 @@ export class AppComponent implements OnInit {
   circuit:any=null;
   BASE_URL = "http://localhost/api/";
   seasons_endpoint = "seasons";
-  retrievedSeasons = {}
-  retrievedRoundsForSeason = {}
-  retrivedSeasonRoundData = {};
+  retrievedSeasons: any[];
+  retrievedRoundsForSeason: any[];
+  retrivedSeasonRoundData: any[];
+  isSeasonRoundDataSuccess: boolean = false;
+  circuitData: any[]; 
+  raceResults: any[];
 
   constructor(private appService: AppService, private http: HttpClient) { }
 
@@ -42,6 +45,10 @@ export class AppComponent implements OnInit {
     const round_results_endpoint = `round_results?season=${this.season.season}&round_no=${this.circuit.circuitId}`;
     this.http.get<any>(this.BASE_URL + round_results_endpoint).subscribe(data => {
       this.retrivedSeasonRoundData = data;
+      this.isSeasonRoundDataSuccess = true;
+      this.circuitData = data[0].Circuit ? data[0].Circuit : {};
+      this.circuitData["circuitUrl"] = data[0].url ? data[0].url : "";
+      this.raceResults = data[0].Results ? data[0].Results : {};
     })
   }
 
@@ -52,4 +59,8 @@ export class AppComponent implements OnInit {
 	selectRound(): void {
     this.setupView();
 	}
+
+  formatTime(result){
+    return result && result.Time && result.Time.time ? result.Time.time : "N/A";
+  }
 }

@@ -1,7 +1,6 @@
 {
   "name": "f1-stats-ui",
-  "version": "2.0.3",
-  "license": "MIT",
+  "version": "1.0.0",
   "scripts": {
     "ng": "set NODE_OPTIONS=--openssl-legacy-provider && ng",
     "start": "ng serve",
