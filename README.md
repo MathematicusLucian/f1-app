@@ -1,5 +1,11 @@
 # f1-stats UI and API
 ### Angular, Flask, Docker.
+- Select a specific race event 
+- Visualisations that allow us to understand what happened during the race. 
+- Elements of the available data that help a user's understanding. 
+- Visualisation with an interactive tool - ideally providing levels of detail.
+ 
+You can use any language you like to produce the application, which should be returned by email. Ideally the solution should run in a docker container that manages and localises the project dependencies and it should work with any modern browser.
 
 Features:
 - Project structure supports multiple Dev environments with the usage of `.env` variable and `docker.compose.yml` files.
@@ -32,6 +38,9 @@ nginx config file, and Dockerfile for running the nginx container which serves t
 
 **Flask** app, **tests** setup, configs and settings files, Dockerfile for running the Flask container, etc..
 
+***Requirements***
+`pip freeze -r requirements.txt | sed '/freeze/,$ d'`
+
 ### ui
 
 Angular code.
@@ -50,7 +59,7 @@ External requests hit the _nginx_ web server's port 80, and the response is by A
 
 ## Running the App
 
-**NOTE**: [Angular Prerequisites] (https://github.com/angular/angular-cli#prerequisites): Docker, node, npm and angular-cli.
+**NB.**: [Angular Prerequisites] (https://github.com/angular/angular-cli#prerequisites): Docker, node, npm and angular-cli.
 
 - Navigate to the `ui` directory. 
 Execute `ng build --prod` to create a production build for Angular.
