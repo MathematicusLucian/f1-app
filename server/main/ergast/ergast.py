@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Callable, List 
 import json
+from operator import itemgetter
 import requests
 from uritemplate import URITemplate
 HOST = "https://ergast.com/api"
@@ -34,16 +35,18 @@ class Ergast:
         )
     
     def get_seasons(self):
-        api_json = self.run_request("seasons")
-        return api_json["MRData"]["SeasonTable"]["Seasons"]
+        api_json = self.run_request("seasons", limit=200, offset=0)
+        seasons =  api_json["MRData"]["SeasonTable"]["Seasons"]
+        seasons_desc = json.dumps(sorted(seasons, key=itemgetter('season'), reverse=True))
+        return seasons_desc
     
     def get_rounds_for_season(self, season):
-        api_json = self.run_request(season)
+        api_json = self.run_request(resource=season)
         season_rounds = api_json["MRData"]["RaceTable"]["Races"]
         season_rounds = [{"circuitId": x["round"], "circuitName": x["raceName"]} for x in season_rounds]
         return season_rounds
 
     def get_season_round_results(self, season, round_no):
-        api_json = self.run_request("results", season, round_no)
+        api_json = self.run_request("results", season=season, round_no=round_no)
         return api_json["MRData"]["RaceTable"]["Races"]
 
