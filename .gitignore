@@ -10,6 +10,9 @@ __pycache__/
 .idea/
 
 # Angular node_modules directory
+node_modules
+node_modules/
+node_modules/*
 ui/node_modules
 ui/.angular
 ui/.angular/*
