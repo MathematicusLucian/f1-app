@@ -1,0 +1,25 @@
+<div class="content">
+    <mat-card class="mat-elevation-z4">
+    <mat-card-header>
+        <mat-card-title>
+          <a href="{{cardData.Driver.url}}">
+            <h2>{{cardData.Driver.givenName}} {{cardData.Driver.familyName}}</h2>
+          </a>
+        </mat-card-title>
+    </mat-card-header>
+    <!-- <img alt="alt-text" mat-card-image src="" /> -->
+    <mat-card-content>
+      <p>{{cardData.Driver.nationality}}</p>
+      <p><a href="{{cardData.Constructor.url}}"><span>{{cardData.Constructor.name}}</span></a> ({{cardData.Constructor.nationality}})</p>
+      <p>Final position: {{cardData.positionText}} from Grid Position: {{cardData.grid}}</p>
+      <p>Status: {{cardData.status}}</p>
+      <p>Laps Completed: {{cardData.laps}} || Time: {{formatTime(cardData)}}</p>
+      <p>Points: {{cardData.points}}</p>
+      <p>
+        Fastest Lap: {{cardData.FastestLap.lap}} 
+        || Avg Speed: {{cardData.FastestLap.AverageSpeed.speed}} {{cardData.FastestLap.AverageSpeed.units}} 
+        || Time: {{cardData.FastestLap.Time.time}}
+      </p>
+    </mat-card-content>
+    </mat-card>
+</div>

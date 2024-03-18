@@ -38,7 +38,7 @@ class Ergast:
         api_json = self.run_request("seasons", limit=200, offset=0)
         seasons =  api_json["MRData"]["SeasonTable"]["Seasons"]
         seasons_desc = sorted(seasons, key=itemgetter('season'), reverse=True)
-        return seasons_desc
+        return seasons_desc 
     
     def get_rounds_for_season(self, season):
         api_json = self.run_request(resource=season)

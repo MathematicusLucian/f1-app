@@ -1,20 +1,20 @@
-<div style="text-align: center;">
+<div id="main">
 
   <h1>f1-stats</h1>
 
-  <div *ngIf="!isSeasonRoundDataSuccess">Loading . . . </div>
-
   <div *ngIf="retrievedSeasons?.length">
-    <select id="season_select" [(ngModel)]="season" (change)="selectSeason()"  mdbInput> 
+    <select id="season_select" [(ngModel)]="season" (change)="selectSeason()" mdbInput> 
       <option *ngFor="let season of retrievedSeasons" size="100" [ngValue]="season">{{season.season}}</option>
     </select>
   </div>
 
   <div *ngIf="retrievedRoundsForSeason?.length">
-    <select id="circuit_select" [(ngModel)]="circuit" (change)="selectRound()"  mdbInput> 
+    <select id="circuit_select" [(ngModel)]="circuit" (change)="selectRound()" mdbInput> 
       <option *ngFor="let circuit of retrievedRoundsForSeason" size="100" [ngValue]="circuit">{{circuit.circuitId}}: {{circuit.circuitName}}</option>
     </select>
   </div>
+
+  <h1 *ngIf="!isSeasonRoundDataSuccess">Loading . . . </h1>
 
   <div *ngIf="circuitData?.length">
     <h2>{{retrivedSeasonRoundData[0].season}} #{{retrivedSeasonRoundData[0].round}}: <a href="{{retrivedSeasonRoundData[0].url}}">{{retrivedSeasonRoundData[0].raceName}}</a></h2>
@@ -23,21 +23,9 @@
     <p>{{circuitData.Location.lat}}, {{circuitData.Location.long}}</p>
   </div>
 
-  <div *ngIf="raceResults?.length">
+  <div id="results" *ngIf="raceResults?.length">
     <span *ngFor="let result of retrivedSeasonRoundData[0].Results">
-      <h3><a href="{{result.Driver.url}}">{{result.Driver.givenName}} {{result.Driver.familyName}}</a></h3>
-      <p>{{result.Driver.nationality}}</p>
-      <p><a href="{{result.Constructor.url}}">{{result.Constructor.name}}</a> ({{result.Constructor.nationality}})</p>
-      <p>Final position: {{result.positionText}} from Grid Position: {{result.grid}}</p>
-      <p>Status: {{result.status}}</p>
-      <p>Laps Completed: {{result.laps}} || Time: {{formatTime(result)}}</p>
-      <p>Points: {{result.points}}</p>
-      <p>
-        Fastest Lap: {{result.FastestLap.lap}} 
-        || Avg Speed: {{result.FastestLap.AverageSpeed.speed}} {{result.FastestLap.AverageSpeed.units}} 
-        || Time: {{result.FastestLap.Time.time}}
-      </p>
-      <hr/>
+      <f1-card [cardData]="result"></f1-card>
     </span>
   </div>
 

@@ -59,8 +59,4 @@ export class AppComponent implements OnInit {
 	selectRound(): void {
     this.setupView();
 	}
-
-  formatTime(result){
-    return result && result.Time && result.Time.time ? result.Time.time : "N/A";
-  }
 }
