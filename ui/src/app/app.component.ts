@@ -12,44 +12,44 @@ import {AppService} from './app.service';
 export class AppComponent implements OnInit {
   title = 'F1 stats';
   season:any=null;
-  track:any={}
-	// years=[
-	// 	{"id_year":1, "name":"2024"},
-	// 	{"id_year":2, "name":"2023"}
-	// ]
-	// seasonRounds=[
-	// 	{"id_track":1, "name":"Monaco"},
-	// 	{"id_track":2, "name":"Silverstone"}
-	// ]
+  circuit:any=null;
   BASE_URL = "http://localhost/api/";
-  SEASONS = "seasons";
-  ROUNDS_FOR_SEASON = "rounds_for_season";
-  SEASON_ROUND = "round_results?season=2008&round_no=6";
+  seasons_endpoint = "seasons";
   retrievedSeasons = {}
   retrievedRoundsForSeason = {}
   retrivedSeasonRoundData = {};
 
   constructor(private appService: AppService, private http: HttpClient) { }
 
-  dropdownList = [];
-  selectedItems = [];
-  dropdownSettings = {};
-
-  ngOnInit() {
-    this.http.get<any>(this.BASE_URL+this.SEASONS).subscribe(data => {
+  ngOnInit(): void {
+    this.http.get<any>(this.BASE_URL+this.seasons_endpoint).subscribe(data => {
       this.retrievedSeasons = data;
+      this.season = this.retrievedSeasons[0];
+      this.setupRoundsDropdown();
     })
   }
 
-	select_season(){
-  //   this.http.get<any>(this.BASE_URL+this.SEASON_ROUND).subscribe(data => {
-  //     this.retrievedRoundsForSeason = data;
-  //   })
+  setupRoundsDropdown(): void {
+    const round_for_season_endpoint = `rounds_for_season?season=${this.season.season}`;
+    this.http.get<any>(this.BASE_URL + round_for_season_endpoint).subscribe(data => {
+      this.retrievedRoundsForSeason = data;
+      this.circuit = this.retrievedRoundsForSeason[0];
+      this.setupView();
+    })
+  }
+
+  setupView(): void {
+    const round_results_endpoint = `round_results?season=${this.season.season}&round_no=${this.circuit.circuitId}`;
+    this.http.get<any>(this.BASE_URL + round_results_endpoint).subscribe(data => {
+      this.retrivedSeasonRoundData = data;
+    })
+  }
+
+	selectSeason(): void {
+    this.setupRoundsDropdown();
 	}
 
-	// select_round(){
-  //   this.http.get<any>(this.BASE_URL+this.SEASON_ROUND).subscribe(data => {
-  //     this.retrivedSeasonRoundData = data;
-  //   })
-	// }
+	selectRound(): void {
+    this.setupView();
+	}
 }

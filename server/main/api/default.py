@@ -13,16 +13,16 @@ def hello():
 def ping():
     return jsonify({"status": 200, "msg":"I am the f1-stats Flask API"})
 
-# /api/round_results?season=2008&round_no=5
+# /api/seasons
 @route.route("/api/seasons")
 def get_seasons():
     return ergast.get_seasons()
 
-# /api/round_results?season=2008&round_no=5
+# /api/rounds_for_season?season=2008
 @route.route("/api/rounds_for_season")
 def get_rounds_for_season():
-    season = request.args.get('season')
-    return ergast.get_rounds_for_season(season)
+    season_rounds = request.args.get('season')
+    return ergast.get_rounds_for_season(season_rounds)
 
 # /api/round_results?season=2008&round_no=5
 @route.route("/api/round_results")

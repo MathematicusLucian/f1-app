@@ -38,8 +38,10 @@ class Ergast:
         return api_json["MRData"]["SeasonTable"]["Seasons"]
     
     def get_rounds_for_season(self, season):
-        api_json = self.run_request("results", season)
-        return api_json
+        api_json = self.run_request(season)
+        season_rounds = api_json["MRData"]["RaceTable"]["Races"]
+        season_rounds = [{"circuitId": x["round"], "circuitName": x["raceName"]} for x in season_rounds]
+        return season_rounds
 
     def get_season_round_results(self, season, round_no):
         api_json = self.run_request("results", season, round_no)
