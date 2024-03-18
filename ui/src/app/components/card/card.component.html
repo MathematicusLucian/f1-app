@@ -7,7 +7,7 @@
           </a>
         </mat-card-title>
     </mat-card-header>
-    <!-- <img alt="alt-text" mat-card-image src="" /> -->
+    <img class="driver-image" alt="alt-text" mat-card-image src={{constructImgUrl(cardData.Driver.familyName)}}/>
     <mat-card-content>
       <p>{{cardData.Driver.nationality}}</p>
       <p><a href="{{cardData.Constructor.url}}"><span>{{cardData.Constructor.name}}</span></a> ({{cardData.Constructor.nationality}})</p>

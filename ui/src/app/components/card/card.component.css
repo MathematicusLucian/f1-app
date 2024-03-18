@@ -7,3 +7,6 @@ mat-card-header {
 h2, a > span {
     color: #fff;
 }
+.driver-image {
+    max-width: 350px
+}

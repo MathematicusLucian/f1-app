@@ -7,6 +7,7 @@ import {Component, OnInit, Input} from '@angular/core';
 })
 export class CardComponent implements OnInit {
   @Input() cardData: any;
+  driverImage: any;
 
   constructor() { }
 
@@ -14,5 +15,12 @@ export class CardComponent implements OnInit {
 
   formatTime(result){
     return result && result.Time && result.Time.time ? result.Time.time : "N/A";
+  }
+
+  constructImgUrl(familyName){
+    console.log(familyName);
+    const url = `https://media.formula1.com/content/dam/fom-website/drivers/2024Drivers/`+familyName+`.jpg.img.256.small.jpg/1708362100444.jpg`;
+    console.log(url);
+    return url;
   }
 }

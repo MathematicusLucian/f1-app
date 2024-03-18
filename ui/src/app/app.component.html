@@ -11,9 +11,17 @@
 <div id="main">
 
   <div *ngIf="retrievedSeasons?.length">
-    <select id="season_select" [(ngModel)]="season" (change)="selectSeason()" mdbInput> 
+    <!-- <select id="season_select" [(ngModel)]="season" (change)="selectSeason()" mdbInput> 
       <option *ngFor="let season of retrievedSeasons" size="100" [ngValue]="season">{{season.season}}</option>
-    </select>
+    </select> -->
+    <mat-form-field>
+      <mat-label>Seasons:</mat-label>
+      <mat-select id="season_select" (change)="selectSeason()">
+        @for (season of retrievedSeason; track season) {
+          <mat-option [value]="season">{{season.season}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </div>
 
   <div *ngIf="retrievedRoundsForSeason?.length">
