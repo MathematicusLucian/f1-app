@@ -1,4 +1,9 @@
 <div style="text-align: center;">
   <h1>f1-stats ui</h1>
-  {{ msg }}
+
+  <select [(ngModel)]="track" (change)="select_round()"  mdbInput> 
+    <option *ngFor="let track of seasonRounds" [ngValue]="track">{{track.name}}</option>
+  </select>
+
+  <pre>{{seasonRoundData|json}}</pre>
 </div>
