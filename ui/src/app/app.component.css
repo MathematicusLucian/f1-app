@@ -1,17 +1,27 @@
 a:link, a:visited, a:hover, a:active, a:-webkit-any-link {
   color: #fff !important;
 }
-#results, #results > span {
+.mat-toolbar{
+  background-color: rgb(146, 0, 0);
+}
+.mat-toolbar > .mat-toolbar-row > span {
+  color: #fff;
+  font-size: 1.4em;
+}
+#circuits, #circuits > span, #results, #results > span {
   display: flex;
 }
-#results {
+#circuits, #results {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
 }
-#results > span {
+#circuits > span, #results > span {
   flex: 1 1 350px;
   border: 2px solid #010101;
   background: #00000c;
   color: #fff;
+}
+.menu-spacer {
+  flex: 1 1 auto;
 }
