@@ -13,12 +13,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { AppComponent } from './app.component';
 import { CardComponent } from './components/card/card.component';
-import { AppService } from './app.service';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent, 
-    CardComponent
+    CardComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +35,7 @@ import { AppService } from './app.service';
     MatInputModule,
     FlexLayoutModule
   ],
-  providers: [AppService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

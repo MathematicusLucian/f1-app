@@ -1,8 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import { map } from 'rxjs/operators';
-import {AppService} from './app.service';
+import {HttpClient} from '@angular/common/http';
+
+interface Season {
+  season: string;
+  url: string;
+}
+
+interface RoundsForSeason {
+  circuitId: string,
+  circuitName: string
+}
 
 @Component({
   selector: 'app-root',
@@ -12,31 +19,34 @@ import {AppService} from './app.service';
 export class AppComponent implements OnInit {
   title = 'F1 stats';
   season:any=null;
+  selectedSeason: any;
+  selectedRound: any;
   circuit:any=null;
   BASE_URL = "http://localhost/api/";
   seasons_endpoint = "seasons";
-  retrievedSeasons: any[];
-  retrievedRoundsForSeason: any[];
+  retrievedSeasons: Season[];
+  retrievedRoundsForSeason: RoundsForSeason[];
   retrivedSeasonRoundData: any[];
   isSeasonRoundDataSuccess: boolean = false;
   circuitData: any[]; 
   raceResults: any[];
-
-  constructor(private appService: AppService, private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.http.get<any>(this.BASE_URL+this.seasons_endpoint).subscribe(data => {
       this.retrievedSeasons = data;
-      this.season = this.retrievedSeasons[0];
+      this.season = data[0];
       this.setupRoundsDropdown();
     })
   }
 
   setupRoundsDropdown(): void {
+    console.log('2',this.season.season);
     const round_for_season_endpoint = `rounds_for_season?season=${this.season.season}`;
     this.http.get<any>(this.BASE_URL + round_for_season_endpoint).subscribe(data => {
       this.retrievedRoundsForSeason = data;
-      this.circuit = this.retrievedRoundsForSeason[0];
+      this.circuit = data[0];
+      console.log(data)
       this.setupView();
     })
   }
@@ -52,11 +62,13 @@ export class AppComponent implements OnInit {
     })
   }
 
-	selectSeason(): void {
+  selectSeason(event: Event): void {
+    this.season.season = (event.target as HTMLSelectElement).value;
     this.setupRoundsDropdown();
-	}
+  }
 
-	selectRound(): void {
+	selectRound(event: Event): void {
+    this.circuit.circuitId = (event.target as HTMLSelectElement).value;
     this.setupView();
 	}
 }

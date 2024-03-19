@@ -18,9 +18,7 @@ export class CardComponent implements OnInit {
   }
 
   constructImgUrl(familyName){
-    console.log(familyName);
     const url = `https://media.formula1.com/content/dam/fom-website/drivers/2024Drivers/`+familyName+`.jpg.img.256.small.jpg/1708362100444.jpg`;
-    console.log(url);
     return url;
   }
 }

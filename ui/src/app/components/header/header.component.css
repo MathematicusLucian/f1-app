@@ -1,0 +1,10 @@
+.mat-toolbar{
+    background-color: rgb(146, 0, 0);
+}
+.mat-toolbar > .mat-toolbar-row > span {
+    color: #fff;
+    font-size: 1.4em;
+}
+/* .menu-spacer {
+    flex: 1 1 auto;
+} */
