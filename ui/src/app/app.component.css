@@ -1,15 +1,15 @@
 a:link, a:visited, a:hover, a:active, a:-webkit-any-link {
   color: #fff !important;
 }
-#circuits, #circuits > span, #results, #results > span {
+#results, #results > span {
   display: flex;
 }
-#circuits, #results {
+#results {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
 }
-#circuits > span, #results > span {
+#results > span {
   flex: 1 1 350px;
   border: 2px solid #010101;
   background: #00000c;
