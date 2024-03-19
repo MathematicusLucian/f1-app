@@ -22,11 +22,13 @@ export class AppComponent implements OnInit {
   selectedSeason: any;
   selectedRound: any;
   circuit:any=null;
+  laps_for_round:any=null;
   BASE_URL = "http://localhost/api/";
   seasons_endpoint = "seasons";
   retrievedSeasons: Season[];
   retrievedRoundsForSeason: RoundsForSeason[];
   retrivedSeasonRoundData: any[];
+  retrievedLapsForRound: any[]
   isSeasonRoundDataSuccess: boolean = false;
   circuitData: any[]; 
   raceResults: any[];
@@ -43,15 +45,17 @@ export class AppComponent implements OnInit {
   setupRoundsDropdown(): void {
     console.log('2',this.season.season);
     const round_for_season_endpoint = `rounds_for_season?season=${this.season.season}`;
+    // If time, would move this http function to a service
     this.http.get<any>(this.BASE_URL + round_for_season_endpoint).subscribe(data => {
       this.retrievedRoundsForSeason = data;
       this.circuit = data[0];
       console.log(data)
-      this.setupView();
+      this.setupDriverStandings();
+      this.setupLaps();
     })
   }
 
-  setupView(): void {
+  setupDriverStandings(): void {
     const round_results_endpoint = `round_results?season=${this.season.season}&round_no=${this.circuit.circuitId}`;
     this.http.get<any>(this.BASE_URL + round_results_endpoint).subscribe(data => {
       this.retrivedSeasonRoundData = data;
@@ -62,6 +66,13 @@ export class AppComponent implements OnInit {
     })
   }
 
+  setupLaps():void {
+    const laps_for_round_endpoint = `laps_for_round?season=${this.season.season}&round_no=${this.circuit.circuitId}`;
+    this.http.get<any>(this.BASE_URL + laps_for_round_endpoint).subscribe(data => {
+      this.retrievedLapsForRound = data
+    })
+  }
+
   selectSeason(event: Event): void {
     this.season.season = (event.target as HTMLSelectElement).value;
     this.setupRoundsDropdown();
@@ -69,6 +80,7 @@ export class AppComponent implements OnInit {
 
 	selectRound(event: Event): void {
     this.circuit.circuitId = (event.target as HTMLSelectElement).value;
-    this.setupView();
+    this.setupDriverStandings();
+    this.setupLaps();
 	}
 }
