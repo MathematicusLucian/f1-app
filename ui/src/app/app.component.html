@@ -28,6 +28,8 @@
   <h1 *ngIf="!isSeasonRoundDataSuccess">Loading . . . </h1>
 
   <div *ngIf="raceResults?.length">
+
+    <f1-laps-chart [chartValue]="123"></f1-laps-chart>
     
     <mat-card-content>
     <h2>Circuit Overview</h2>

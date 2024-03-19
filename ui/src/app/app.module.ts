@@ -11,15 +11,18 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { NgxEchartsModule } from 'ngx-echarts';
 import { AppComponent } from './app.component';
-import { CardComponent } from './components/card/card.component';
 import { HeaderComponent } from './components/header/header.component';
+import { CardComponent } from './components/card/card.component';
+import { SeriesChartComponent } from './components/series-chart/series-chart.component';
 
 @NgModule({
   declarations: [
     AppComponent, 
+    HeaderComponent,
     CardComponent,
-    HeaderComponent
+    SeriesChartComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,15 @@ import { HeaderComponent } from './components/header/header.component';
     MatFormFieldModule, 
     MatSelectModule, 
     MatInputModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgxEchartsModule.forRoot({
+      /**
+       * This will import all modules from echarts.
+       * If you only need custom modules,
+       * please refer to [Custom Build] section.
+       */
+      echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
