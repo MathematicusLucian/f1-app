@@ -30,3 +30,10 @@ def get_season_round_results():
     season = request.args.get('season')
     round_no = request.args.get('round_no')
     return ergast.get_season_round_results(season, round_no)
+
+# /api/laps_for_round?season=2008&round_no=5
+@route.route("/api/laps_for_round")
+def get_laps_for_round():
+    season = request.args.get('season')
+    round_no = request.args.get('round_no')
+    return ergast.get_laps_for_round(season, round_no, 1)

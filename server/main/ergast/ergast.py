@@ -49,4 +49,8 @@ class Ergast:
     def get_season_round_results(self, season, round_no):
         api_json = self.run_request("results", season=season, round_no=round_no)
         return api_json["MRData"]["RaceTable"]["Races"]
+    
+    def get_laps_for_round(self, season, round_no, lap_no):
+        api_json = self.run_request(resource="laps",season=season, round_no=round_no, limit=2000, offset=lap_no)
+        return api_json
 
