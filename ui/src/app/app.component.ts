@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 
 interface Season {
   season: string;
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit {
   retrievedSeasons: Season[];
   retrievedRoundsForSeason: RoundsForSeason[];
   retrivedSeasonRoundData: any[];
-  retrievedLapsForRound: any[]
+  retrievedLapsForRound$: Observable<any> = of([]);
   isSeasonRoundDataSuccess: boolean = false;
   circuitData: any[]; 
   raceResults: any[];
@@ -43,13 +44,11 @@ export class AppComponent implements OnInit {
   }
 
   setupRoundsDropdown(): void {
-    console.log('2',this.season.season);
     const round_for_season_endpoint = `rounds_for_season?season=${this.season.season}`;
     // If time, would move this http function to a service
     this.http.get<any>(this.BASE_URL + round_for_season_endpoint).subscribe(data => {
       this.retrievedRoundsForSeason = data;
       this.circuit = data[0];
-      console.log(data)
       this.setupDriverStandings();
       this.setupLaps();
     })
@@ -69,7 +68,7 @@ export class AppComponent implements OnInit {
   setupLaps():void {
     const laps_for_round_endpoint = `laps_for_round?season=${this.season.season}&round_no=${this.circuit.circuitId}`;
     this.http.get<any>(this.BASE_URL + laps_for_round_endpoint).subscribe(data => {
-      this.retrievedLapsForRound = data
+      this.retrievedLapsForRound$ = of(data);
     })
   }
 

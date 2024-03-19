@@ -18,4 +18,4 @@ ui/.angular
 ui/.angular/*
 
 # Environment variable
-#.env
+.env

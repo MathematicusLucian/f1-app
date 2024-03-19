@@ -1,100 +1,97 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { EChartsOption, SeriesOption } from 'echarts';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'f1-laps-chart',
   templateUrl: './series-chart.component.html',
   styleUrls: ['./series-chart.component.css']
 })
-export class SeriesChartComponent {
-    @Input() chartValue: any;
-    names = [
-        'Orange',
-        'Tomato',
-        'Apple',
-        'Sakana',
-        'Banana',
-        'Iwashi',
-        'Snappy Fish',
-        'Lemon',
-        'Pasta'
-    ];
-    years = ['2001', '2002', '2003', '2004', '2005', '2006'];
-    option = {
-        title: {
-          text: 'Lap Chart (Ranking)'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        grid: {
-          left: 30,
-          right: 110,
-          bottom: 30,
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        xAxis: {
-          type: 'category',
-          splitLine: {
-            show: true
-          },
-          axisLabel: {
-            margin: 30,
-            fontSize: 16
-          },
-          boundaryGap: false,
-          data: this.years
-        },
-        yAxis: {
-          type: 'value',
-          axisLabel: {
-            margin: 30,
-            fontSize: 16,
-            formatter: '#{value}'
-          },
-          inverse: true,
-          interval: 1,
-          min: 1,
-          max: this.names.length
-        },
-        series: this.generateSeriesList()
-    };
+export class SeriesChartComponent implements OnChanges {
+    @Input() chartValue$: Observable<any>;
+    names: any[];
+    arrayOf1ToNLaps: any[];
+    lapsData;
+    option = {}
 
     constructor() {}
 
-    shuffle <T>(array: T[]): T[] {
-        let currentIndex = array.length;
-        let randomIndex = 0;
-        while (currentIndex > 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex],
-            array[currentIndex]
-            ];
+    ngOnChanges(changes) {
+        if (changes) {
+            this.lapsData = changes.chartValue$.currentValue;
+            if(this.lapsData.length > 0) {
+                const numberOfLaps = this.lapsData.length;
+                this.arrayOf1ToNLaps = Array.from({length: numberOfLaps+1}, (_, index) => index+1);
+                this.names = this.lapsData[1]["Timings"].map(m => m.driverId);
+                this.option = {
+                    title: {
+                        text: 'Lap Chart (Ranking)'
+                    },
+                    tooltip: {},
+                    grid: {
+                        left: 30,
+                        right: 110,
+                        bottom: 30,
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        splitLine: {
+                            show: true
+                        },
+                        axisLabel: {
+                            margin: 30,
+                            fontSize: 16
+                        },
+                        boundaryGap: false,
+                        data: this.arrayOf1ToNLaps
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            margin: 30,
+                            fontSize: 18,
+                            formatter: '#{value}'
+                        },
+                        inverse: true,
+                        interval: 1,
+                        min: 1,
+                        max: this.names.length
+                    },
+                    series: this.generateSeriesList()
+                };
+            }
         }
-        return array;
-    };
+    }
+
     generateRankingData(): Map<string, number[]> {
-        const map: Map<string, number[]> = new Map();
-        const defaultRanking: number[] = Array.from(
-          { length: this.names.length },
-          (_, i) => i + 1
-        );
-      
-        for (const _ of this.years) {
-          const shuffleArray = this.shuffle(defaultRanking);
-          this.names.forEach((name, i) => {
-            map.set(name, (map.get(name) || []).concat(shuffleArray[i]));
-          });
+        let map: Map<string, number[]> = new Map();
+        let bumpDataSeries = {}
+        for (const _ of this.arrayOf1ToNLaps) {
+            const num = _-1;
+            if(this.lapsData[num] && this.lapsData[num]["Timings"]) {
+                const timingsForLap = this.lapsData[num]["Timings"];
+                timingsForLap.forEach((lapTimings, i) => {
+                    const driverId = lapTimings["driverId"];
+                    const ranking = lapTimings["position"];
+                    if (!bumpDataSeries[driverId]){
+                        bumpDataSeries[driverId] = [];
+                    }
+                    bumpDataSeries[driverId].push(ranking);
+                });
+            }
         }
+        this.names.forEach((name, i) => {
+            map.set(name, bumpDataSeries[name]);
+        });
         return map;
     };
+
     generateSeriesList (): SeriesOption[] {
         const seriesList: SeriesOption[] = [];
         const rankingMap = this.generateRankingData();
@@ -113,7 +110,7 @@ export class SeriesChartComponent {
               distance: 20
             },
             lineStyle: {
-              width: 4
+              width: 11
             },
             data
           };

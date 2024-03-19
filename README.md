@@ -1,30 +1,40 @@
 # f1-stats UI and API
-### Angular, Flask, Docker.
+### Angular, Flask, Docker (not enough time given to add state management, lazy-loading, offsets for endpoints, more testing, etc.)
+
+Driver standings:
+![driver_standings.png](./assets/driver_standings.png)
+
+Dropdown:
+![dropdown.png](./assets/dropdown.png)
+
+Lap chart:
+![lap_chart.png](./assets/lap_chart.png)
+
+Requirements vague:
 - Select a specific race event 
 - Visualisations that allow us to understand what happened during the race. 
 - Elements of the available data that help a user's understanding. 
 - Visualisation with an interactive tool - ideally providing levels of detail.
- 
 You can use any language you like to produce the application, which should be returned by email. Ideally the solution should run in a docker container that manages and localises the project dependencies and it should work with any modern browser.
 
-Features:
-- Project structure supports multiple Dev environments with the usage of `.env` variable and `docker.compose.yml` files.
-- Optimised for large scale app structure, with `Blueprints`, `application factory` and several configs that can be extended from this seed project to any Prod-ready app.
-- Flask code Testing.
-- Reverse proxy (`nginx`.)
-
-It is built with following components:
+Built with:
 - Angular - Front-End JavaScript framework.
 - Docker - Employed Docker Compose to build and host app.
 - Flask - Back-End Python framework.
 - nginx - web server, and reverse proxy. External user hits the nginx - distributes request to UI or Server.
 - uwsgi - WSGI server - direct support for popular NGINX web server.
 
+Solution features:
+- Project structure supports multiple Dev environments with the usage of `.env` variable and `docker.compose.yml` files.
+- Optimised for large scale app structure, with `Blueprints`, `application factory` and several configs that can be extended from this seed project to any Prod-ready app.
+- Flask code Testing.
+- Reverse proxy (`nginx`.)
+
 ## Project Directory
 
 ### docker-compose.yml
 
-To create the containers and run the app. Several versions, i.e. for different environments.
+To create containers and run the app. Several versions, i.e. for different environments.
 
 ### .env File
 

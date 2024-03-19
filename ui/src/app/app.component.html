@@ -45,11 +45,7 @@
 
   </div>
 
-  <div *ngIf="retrievedLapsForRound?.length">
-
-    <f1-laps-chart [chartValue]="retrievedLapsForRound"></f1-laps-chart>
-
-  </div>
+  <f1-laps-chart [chartValue$]="retrievedLapsForRound$ | async"></f1-laps-chart>
 
   <div *ngIf="raceResults?.length">
 
